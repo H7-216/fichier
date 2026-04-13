@@ -27,16 +27,15 @@
       #config-banner {
         background: #fef3c7;
         border-bottom: 2px solid #f59e0b;
-        padding: 0.75rem 1.5rem;
+        padding: 0.6rem 1.5rem;
         text-align: center;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         color: #92400e;
-      }
-      #config-banner code {
-        background: rgba(0,0,0,0.08);
-        padding: 0.1em 0.35em;
-        border-radius: 3px;
-        font-size: 0.85em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
       }
 
       main {
@@ -64,13 +63,14 @@
       }
       .stat-card strong { color: #1e293b; font-size: 1.1rem; }
 
-      #search-bar {
+      #toolbar {
         margin-bottom: 1.5rem;
         display: flex;
         gap: 0.75rem;
         flex-wrap: wrap;
+        align-items: center;
       }
-      #search-bar input {
+      #toolbar input {
         flex: 1;
         min-width: 220px;
         padding: 0.65rem 1rem;
@@ -81,7 +81,7 @@
         background: white;
         transition: border-color 0.2s;
       }
-      #search-bar input:focus { border-color: #3b82f6; }
+      #toolbar input:focus { border-color: #3b82f6; }
       #filter-select {
         padding: 0.65rem 1rem;
         border: 1.5px solid #cbd5e1;
@@ -93,6 +93,60 @@
       }
       #filter-select:focus { border-color: #3b82f6; }
 
+      /* Toggle switch auto-folder */
+      .toggle-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: white;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 0.5rem 0.85rem;
+        cursor: pointer;
+        user-select: none;
+        font-size: 0.85rem;
+        color: #475569;
+        font-weight: 500;
+        transition: border-color 0.2s, background 0.2s;
+        white-space: nowrap;
+      }
+      .toggle-wrap:hover { border-color: #93c5fd; background: #f0f9ff; }
+      .toggle-wrap.active { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+
+      .toggle-switch {
+        width: 36px; height: 20px;
+        background: #cbd5e1;
+        border-radius: 20px;
+        position: relative;
+        transition: background 0.2s;
+        flex-shrink: 0;
+      }
+      .toggle-switch::after {
+        content: '';
+        position: absolute;
+        width: 14px; height: 14px;
+        background: white;
+        border-radius: 50%;
+        top: 3px; left: 3px;
+        transition: transform 0.2s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .toggle-switch.on { background: #3b82f6; }
+      .toggle-switch.on::after { transform: translateX(16px); }
+
+      .threshold-input {
+        width: 48px;
+        padding: 0.3rem 0.4rem;
+        border: 1.5px solid #93c5fd;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        text-align: center;
+        outline: none;
+        background: white;
+        color: #1d4ed8;
+        font-weight: 700;
+      }
+
       .section-title {
         font-size: 1.1rem;
         font-weight: 600;
@@ -100,7 +154,7 @@
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.6rem;
       }
       .section-title::before {
         content: '';
@@ -108,7 +162,20 @@
         width: 4px; height: 18px;
         background: #3b82f6;
         border-radius: 2px;
+        flex-shrink: 0;
       }
+      .back-btn {
+        font-size: 0.8rem;
+        padding: 0.2em 0.7em;
+        background: #eff6ff;
+        border: 1.5px solid #93c5fd;
+        border-radius: 6px;
+        color: #1d4ed8;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.15s;
+      }
+      .back-btn:hover { background: #dbeafe; }
 
       .grid {
         display: grid;
@@ -187,11 +254,32 @@
       }
       .btn:hover { background: #e0f2fe; border-color: #7dd3fc; color: #0369a1; }
 
+      /* Folder cards */
       .folder-card {
         background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
         border-color: #fde68a;
       }
       .folder-card:hover { border-color: #f59e0b; }
+      .folder-card-auto {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border-color: #bbf7d0;
+      }
+      .folder-card-auto:hover { border-color: #22c55e; }
+
+      /* Auto-folder badge indicator */
+      .auto-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.68rem;
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #86efac;
+        border-radius: 20px;
+        padding: 0.1em 0.55em;
+        font-weight: 700;
+        margin-top: 0.3rem;
+      }
 
       #empty-state {
         text-align: center;
@@ -275,7 +363,6 @@
         display: flex; flex-direction: column;
         min-height: 0;
       }
-
       #modal-body iframe,
       #modal-body img.preview-img {
         flex: 1;
@@ -285,7 +372,6 @@
         border: none;
         display: block;
       }
-
       #modal-body .no-preview {
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
@@ -353,7 +439,6 @@
       .type-text   { background:#f1f5f9; color:#475569; }
       .type-other  { background:#f5f3ff; color:#7c3aed; }
 
-      /* ====== RESPONSIVE ====== */
       @media (max-width: 600px) {
         header h1 { font-size: 1.4rem; }
         #modal { max-height: 95vh; border-radius: 12px; }
@@ -368,10 +453,8 @@
     </header>
 
     <div id="config-banner">
-      ⚙️ Configurez votre dépôt GitHub ci-dessous :
-      <strong id="repo-display">non configuré</strong>
-      &nbsp;|&nbsp;
-      <button onclick="showConfig()" style="background:#f59e0b;color:white;border:none;padding:0.2em 0.8em;border-radius:5px;cursor:pointer;font-weight:600;font-size:0.85rem;">Modifier</button>
+      <span>⚙️ Dépôt : <strong id="repo-display">non configuré</strong></span>
+      <button onclick="showConfig()" style="background:#f59e0b;color:white;border:none;padding:0.25em 0.9em;border-radius:5px;cursor:pointer;font-weight:600;font-size:0.82rem;">Modifier</button>
     </div>
 
     <main>
@@ -382,9 +465,10 @@
 
       <div id="content" style="display:none;">
         <div id="stats-bar"></div>
-        <div id="search-bar">
-          <input type="text" id="search-input" placeholder="🔍 Rechercher un fichier..." oninput="filterFiles()" />
-          <select id="filter-select" onchange="filterFiles()">
+
+        <div id="toolbar">
+          <input type="text" id="search-input" placeholder="🔍 Rechercher un fichier..." oninput="renderAll()" />
+          <select id="filter-select" onchange="renderAll()">
             <option value="all">Tous les types</option>
             <option value="pdf">PDF</option>
             <option value="image">Images</option>
@@ -398,13 +482,35 @@
             <option value="text">Texte</option>
             <option value="other">Autres</option>
           </select>
+
+          <!-- Toggle auto-dossier -->
+          <div class="toggle-wrap" id="toggle-wrap" onclick="toggleAutoFolder()">
+            <div class="toggle-switch" id="toggle-switch"></div>
+            <span>Dossiers auto</span>
+            <span style="color:#94a3b8;font-size:0.75rem;">≥</span>
+            <input
+              type="number"
+              id="threshold-input"
+              class="threshold-input"
+              min="2" max="20"
+              value="3"
+              onclick="event.stopPropagation()"
+              oninput="onThresholdChange()"
+              title="Nombre minimum de fichiers pour créer un dossier automatique"
+            />
+            <span style="color:#94a3b8;font-size:0.75rem;">fichiers</span>
+          </div>
         </div>
+
         <div id="folders-section" style="display:none;">
-          <div class="section-title">Dossiers</div>
+          <div class="section-title" id="folders-title">Dossiers</div>
           <div id="folders-grid" class="grid"></div>
         </div>
         <div id="files-section">
-          <div class="section-title">Fichiers</div>
+          <div class="section-title" id="files-title">
+            <span id="files-title-text">Fichiers</span>
+            <button class="back-btn" id="back-btn" onclick="goBack()" style="display:none;">← Retour</button>
+          </div>
           <div id="files-grid" class="grid"></div>
         </div>
         <div id="empty-state">
@@ -415,7 +521,7 @@
       </div>
     </main>
 
-    <!-- Modal de configuration -->
+    <!-- Modal configuration -->
     <div id="config-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
       <div style="background:white;border-radius:14px;padding:2rem;max-width:460px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,0.3);">
         <h2 style="margin-bottom:1.25rem;font-size:1.2rem;">⚙️ Configuration GitHub</h2>
@@ -432,7 +538,7 @@
       </div>
     </div>
 
-    <!-- Modal de visualisation -->
+    <!-- Modal visualisation -->
     <div id="modal-overlay" onclick="closeModal(event)">
       <div id="modal">
         <div id="modal-header">
@@ -450,132 +556,126 @@
     </div>
 
     <script>
-    // =====================================================
-    //  CONFIGURATION
-    // =====================================================
-    const DEFAULT_CONFIG = {
-      user:   'VOTRE_USER',
-      repo:   'VOTRE_REPO',
-      branch: 'main'
-    };
+    // ============================================================
+    //  CONFIGURATION GITHUB
+    // ============================================================
+    const DEFAULT_CONFIG = { user: 'VOTRE_USER', repo: 'VOTRE_REPO', branch: 'main' };
 
     function loadConfig() {
-      const saved = localStorage.getItem('gh_config');
-      return saved ? JSON.parse(saved) : { ...DEFAULT_CONFIG };
+      try { return JSON.parse(localStorage.getItem('gh_config')) || { ...DEFAULT_CONFIG }; }
+      catch { return { ...DEFAULT_CONFIG }; }
     }
-    function saveConfigToStorage(cfg) {
-      localStorage.setItem('gh_config', JSON.stringify(cfg));
-    }
-
     let CONFIG = loadConfig();
 
     function updateBanner() {
-      const el = document.getElementById('repo-display');
-      if (CONFIG.user === DEFAULT_CONFIG.user) {
-        el.textContent = 'non configuré';
-      } else {
-        el.textContent = `${CONFIG.user}/${CONFIG.repo} (${CONFIG.branch})`;
-      }
+      document.getElementById('repo-display').textContent =
+        CONFIG.user === DEFAULT_CONFIG.user
+          ? 'non configuré'
+          : `${CONFIG.user}/${CONFIG.repo} (${CONFIG.branch})`;
     }
-
     function showConfig() {
       document.getElementById('cfg-user').value   = CONFIG.user   === DEFAULT_CONFIG.user ? '' : CONFIG.user;
       document.getElementById('cfg-repo').value   = CONFIG.repo   === DEFAULT_CONFIG.repo ? '' : CONFIG.repo;
       document.getElementById('cfg-branch').value = CONFIG.branch;
-      const m = document.getElementById('config-modal');
-      m.style.display = 'flex';
+      document.getElementById('config-modal').style.display = 'flex';
     }
-    function closeConfig() {
-      document.getElementById('config-modal').style.display = 'none';
-    }
+    function closeConfig() { document.getElementById('config-modal').style.display = 'none'; }
     function saveConfig() {
       const u = document.getElementById('cfg-user').value.trim();
       const r = document.getElementById('cfg-repo').value.trim();
       const b = document.getElementById('cfg-branch').value.trim() || 'main';
       if (!u || !r) { alert('Veuillez remplir l\'utilisateur et le dépôt.'); return; }
       CONFIG = { user: u, repo: r, branch: b };
-      saveConfigToStorage(CONFIG);
+      localStorage.setItem('gh_config', JSON.stringify(CONFIG));
       closeConfig();
       updateBanner();
       loadFiles();
     }
 
-    // =====================================================
+    // ============================================================
+    //  AUTO-FOLDER SETTINGS
+    // ============================================================
+    let AUTO_FOLDER_ON = JSON.parse(localStorage.getItem('auto_folder') ?? 'false');
+    let AUTO_THRESHOLD = parseInt(localStorage.getItem('auto_threshold') ?? '3', 10);
+
+    function syncToggleUI() {
+      const sw   = document.getElementById('toggle-switch');
+      const wrap = document.getElementById('toggle-wrap');
+      const inp  = document.getElementById('threshold-input');
+      sw.className   = 'toggle-switch' + (AUTO_FOLDER_ON ? ' on' : '');
+      wrap.className = 'toggle-wrap'   + (AUTO_FOLDER_ON ? ' active' : '');
+      inp.value = AUTO_THRESHOLD;
+      inp.disabled = !AUTO_FOLDER_ON;
+      inp.style.opacity = AUTO_FOLDER_ON ? '1' : '0.4';
+    }
+
+    function toggleAutoFolder() {
+      AUTO_FOLDER_ON = !AUTO_FOLDER_ON;
+      localStorage.setItem('auto_folder', AUTO_FOLDER_ON);
+      syncToggleUI();
+      FOLDER_VIEW = null;
+      renderAll();
+    }
+
+    function onThresholdChange() {
+      const v = parseInt(document.getElementById('threshold-input').value, 10);
+      if (v >= 2 && v <= 50) {
+        AUTO_THRESHOLD = v;
+        localStorage.setItem('auto_threshold', v);
+        if (AUTO_FOLDER_ON) { FOLDER_VIEW = null; renderAll(); }
+      }
+    }
+
+    // ============================================================
     //  FILE TYPE DETECTION
-    // =====================================================
+    // ============================================================
     const EXT_MAP = {
-      // PDF
       pdf: 'pdf',
-      // Images
       jpg:'image', jpeg:'image', png:'image', gif:'image', webp:'image',
-      svg:'image', bmp:'image', ico:'image', tiff:'image', tif:'image',
-      avif:'image', heic:'image',
-      // Word
+      svg:'image', bmp:'image', ico:'image', tiff:'image', tif:'image', avif:'image', heic:'image',
       doc:'word', docx:'word', odt:'word', rtf:'word',
-      // Excel
       xls:'excel', xlsx:'excel', ods:'excel', csv:'excel',
-      // PowerPoint
       ppt:'ppt', pptx:'ppt', odp:'ppt',
-      // Vidéo
       mp4:'video', webm:'video', ogg:'video', avi:'video', mov:'video',
       mkv:'video', flv:'video', wmv:'video', m4v:'video',
-      // Audio
-      mp3:'audio', wav:'audio', flac:'audio', aac:'audio', m4a:'audio',
-      opus:'audio', wma:'audio',
-      // Code
-      js:'code', ts:'code', jsx:'code', tsx:'code', py:'code',
-      java:'code', c:'code', cpp:'code', cs:'code', go:'code',
-      rb:'code', php:'code', html:'code', css:'code', scss:'code',
-      json:'code', xml:'code', yaml:'code', yml:'code', sh:'code',
-      bash:'code', sql:'code', rs:'code', swift:'code', kt:'code',
-      // Archives
+      mp3:'audio', wav:'audio', flac:'audio', aac:'audio', m4a:'audio', opus:'audio', wma:'audio',
+      js:'code', ts:'code', jsx:'code', tsx:'code', py:'code', java:'code',
+      c:'code', cpp:'code', cs:'code', go:'code', rb:'code', php:'code',
+      html:'code', css:'code', scss:'code', json:'code', xml:'code',
+      yaml:'code', yml:'code', sh:'code', bash:'code', sql:'code', rs:'code', swift:'code', kt:'code',
       zip:'zip', rar:'zip', tar:'zip', gz:'zip', '7z':'zip', bz2:'zip',
-      // Texte
       txt:'text', md:'text', markdown:'text', log:'text',
     };
 
     const TYPE_META = {
-      pdf:   { icon:'📄', label:'PDF',        cssClass:'type-pdf'   },
-      image: { icon:'🖼️', label:'Image',      cssClass:'type-image' },
-      word:  { icon:'📝', label:'Word',        cssClass:'type-word'  },
-      excel: { icon:'📊', label:'Excel',       cssClass:'type-excel' },
-      ppt:   { icon:'📑', label:'PowerPoint',  cssClass:'type-ppt'   },
-      video: { icon:'🎬', label:'Vidéo',       cssClass:'type-video' },
-      audio: { icon:'🎵', label:'Audio',       cssClass:'type-audio' },
-      code:  { icon:'💻', label:'Code',        cssClass:'type-code'  },
-      zip:   { icon:'📦', label:'Archive',     cssClass:'type-zip'   },
-      text:  { icon:'📃', label:'Texte',       cssClass:'type-text'  },
-      other: { icon:'📎', label:'Fichier',     cssClass:'type-other' },
+      pdf:   { icon:'📄', label:'PDF',         folderLabel:'Fichiers PDF',        cssClass:'type-pdf'   },
+      image: { icon:'🖼️', label:'Image',       folderLabel:'Images',              cssClass:'type-image' },
+      word:  { icon:'📝', label:'Word',         folderLabel:'Documents Word',      cssClass:'type-word'  },
+      excel: { icon:'📊', label:'Excel',        folderLabel:'Fichiers Excel',      cssClass:'type-excel' },
+      ppt:   { icon:'📑', label:'PowerPoint',   folderLabel:'Présentations PPT',   cssClass:'type-ppt'   },
+      video: { icon:'🎬', label:'Vidéo',        folderLabel:'Vidéos',              cssClass:'type-video' },
+      audio: { icon:'🎵', label:'Audio',        folderLabel:'Fichiers Audio',      cssClass:'type-audio' },
+      code:  { icon:'💻', label:'Code',         folderLabel:'Fichiers Code',       cssClass:'type-code'  },
+      zip:   { icon:'📦', label:'Archive',      folderLabel:'Archives',            cssClass:'type-zip'   },
+      text:  { icon:'📃', label:'Texte',        folderLabel:'Fichiers Texte',      cssClass:'type-text'  },
+      other: { icon:'📎', label:'Fichier',      folderLabel:'Autres fichiers',     cssClass:'type-other' },
     };
 
     function getExt(name) {
-      const parts = name.split('.');
-      return parts.length > 1 ? parts.pop().toLowerCase() : '';
+      const p = name.split('.');
+      return p.length > 1 ? p.pop().toLowerCase() : '';
     }
-    function getType(name) {
-      return EXT_MAP[getExt(name)] || 'other';
-    }
-    function getMeta(type) {
-      return TYPE_META[type] || TYPE_META.other;
-    }
+    function getType(name) { return EXT_MAP[getExt(name)] || 'other'; }
+    function getMeta(type) { return TYPE_META[type] || TYPE_META.other; }
 
-    // =====================================================
+    // ============================================================
     //  GITHUB API
-    // =====================================================
-    let ALL_FILES = [];
-    let FOLDER_VIEW = null;
+    // ============================================================
+    let ALL_FILES  = [];
+    let FOLDER_VIEW = null; // null = root | 'gh:xxx' = github folder | 'auto:type' = auto virtual folder
 
-    async function fetchGitHubTree(user, repo, branch) {
-      const url = `https://api.github.com/repos/${user}/${repo}/git/trees/${branch}?recursive=1`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`GitHub API: ${res.status} ${res.statusText}`);
-      const data = await res.json();
-      if (data.truncated) console.warn('Le dépôt est trop grand, certains fichiers peuvent être omis.');
-      return data.tree || [];
-    }
-
-    function rawUrl(user, repo, branch, path) {
-      return `https://raw.githubusercontent.com/${user}/${repo}/${branch}/${path}`;
+    function rawUrl(path) {
+      return `https://raw.githubusercontent.com/${CONFIG.user}/${CONFIG.repo}/${CONFIG.branch}/${path}`;
     }
 
     async function loadFiles() {
@@ -587,132 +687,178 @@
 
       if (CONFIG.user === DEFAULT_CONFIG.user) {
         loading.innerHTML = `<div style="font-size:2rem;margin-bottom:1rem;">⚙️</div>
-          <p style="font-size:1rem;">Configurez votre dépôt GitHub pour commencer.</p>
+          <p>Configurez votre dépôt GitHub pour commencer.</p>
           <button onclick="showConfig()" style="margin-top:1rem;padding:0.6rem 1.4rem;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:0.95rem;font-weight:600;">Configurer</button>`;
         return;
       }
-
       try {
-        const tree = await fetchGitHubTree(CONFIG.user, CONFIG.repo, CONFIG.branch);
-        ALL_FILES = tree
-          .filter(item => item.type === 'blob' && item.path !== 'index.html')
-          .map(item => {
-            const parts = item.path.split('/');
+        const url = `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/git/trees/${CONFIG.branch}?recursive=1`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`GitHub API ${res.status}: ${res.statusText}`);
+        const data = await res.json();
+        ALL_FILES = (data.tree || [])
+          .filter(i => i.type === 'blob' && i.path !== 'index.html')
+          .map(i => {
+            const parts = i.path.split('/');
+            const name  = parts[parts.length - 1];
             return {
-              id:       item.sha,
-              path:     item.path,
-              name:     parts[parts.length - 1],
-              folder:   parts.length > 1 ? parts[0] : null,
-              type:     getType(parts[parts.length - 1]),
-              ext:      getExt(parts[parts.length - 1]),
-              size:     item.size ? formatSize(item.size) : null,
-              rawUrl:   rawUrl(CONFIG.user, CONFIG.repo, CONFIG.branch, item.path),
+              id:     i.sha,
+              path:   i.path,
+              name,
+              ghFolder: parts.length > 1 ? parts[0] : null,
+              type:   getType(name),
+              ext:    getExt(name),
+              size:   i.size ? formatSize(i.size) : null,
+              rawUrl: rawUrl(i.path),
             };
           });
-
         loading.style.display = 'none';
         content.style.display = 'block';
         renderAll();
-      } catch (err) {
+      } catch(err) {
         loading.innerHTML = `<div style="font-size:2rem;margin-bottom:1rem;">⚠️</div>
-          <p style="font-size:1rem;color:#dc2626;">Impossible de charger les fichiers.</p>
+          <p style="color:#dc2626;">Impossible de charger les fichiers.</p>
           <p style="font-size:0.85rem;color:#64748b;margin-top:0.5rem;">${err.message}</p>
-          <button onclick="loadFiles()" style="margin-top:1rem;padding:0.6rem 1.4rem;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:0.95rem;font-weight:600;">Réessayer</button>`;
+          <button onclick="loadFiles()" style="margin-top:1rem;padding:0.6rem 1.4rem;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Réessayer</button>`;
       }
     }
 
-    function formatSize(bytes) {
-      if (bytes < 1024) return bytes + ' B';
-      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' Ko';
-      return (bytes / 1024 / 1024).toFixed(1) + ' Mo';
+    function formatSize(b) {
+      if (b < 1024) return b + ' B';
+      if (b < 1048576) return (b/1024).toFixed(1) + ' Ko';
+      return (b/1048576).toFixed(1) + ' Mo';
     }
 
-    // =====================================================
+    // ============================================================
+    //  AUTO-FOLDER LOGIC
+    // ============================================================
+
+    /**
+     * Returns { autoFolders: Map<type, File[]>, remainingFiles: File[] }
+     * autoFolders: types with >= threshold files (virtual folders by type)
+     * remainingFiles: files whose type has < threshold (shown individually)
+     */
+    function computeAutoFolders(files) {
+      if (!AUTO_FOLDER_ON) return { autoFolders: new Map(), remainingFiles: files };
+
+      const byType = new Map();
+      for (const f of files) {
+        if (!byType.has(f.type)) byType.set(f.type, []);
+        byType.get(f.type).push(f);
+      }
+      const autoFolders    = new Map();
+      const remainingFiles = [];
+      for (const [type, list] of byType) {
+        if (list.length >= AUTO_THRESHOLD) autoFolders.set(type, list);
+        else remainingFiles.push(...list);
+      }
+      return { autoFolders, remainingFiles };
+    }
+
+    // ============================================================
     //  RENDER
-    // =====================================================
-    function getFilteredFiles() {
-      const q     = document.getElementById('search-input').value.trim().toLowerCase();
-      const ftype = document.getElementById('filter-select').value;
-      const source = FOLDER_VIEW
-        ? ALL_FILES.filter(f => f.folder === FOLDER_VIEW)
-        : ALL_FILES.filter(f => !f.folder);
-
-      return source.filter(f => {
-        const matchQ = !q || f.name.toLowerCase().includes(q);
-        const matchT = ftype === 'all' || f.type === ftype;
-        return matchQ && matchT;
-      });
-    }
-
+    // ============================================================
     function renderAll() {
       const q     = document.getElementById('search-input').value.trim().toLowerCase();
       const ftype = document.getElementById('filter-select').value;
 
-      // Stats
+      // ---- Stats bar ----
       const statsBar = document.getElementById('stats-bar');
       const counts = {};
-      ALL_FILES.forEach(f => { counts[f.type] = (counts[f.type] || 0) + 1; });
-      const topTypes = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 5);
-      statsBar.innerHTML = `
-        <div class="stat-card"><strong>${ALL_FILES.length}</strong> fichiers au total</div>
-        ${topTypes.map(([t,n]) => `<div class="stat-card">${getMeta(t).icon} <strong>${n}</strong> ${getMeta(t).label}</div>`).join('')}
-      `;
+      ALL_FILES.forEach(f => { counts[f.type] = (counts[f.type]||0)+1; });
+      const top = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      statsBar.innerHTML =
+        `<div class="stat-card"><strong>${ALL_FILES.length}</strong> fichiers</div>` +
+        top.map(([t,n])=>`<div class="stat-card">${getMeta(t).icon} <strong>${n}</strong> ${getMeta(t).label}</div>`).join('');
 
-      // If we're inside a folder view
-      if (FOLDER_VIEW) {
+      // ---- Inside a VIRTUAL AUTO-folder ----
+      if (FOLDER_VIEW && FOLDER_VIEW.startsWith('auto:')) {
+        const type = FOLDER_VIEW.slice(5);
+        const meta = getMeta(type);
+        const files = ALL_FILES.filter(f => f.type === type && matchSearch(f, q, ftype));
+        setTitle(`${meta.icon} ${meta.folderLabel}`, true);
         document.getElementById('folders-section').style.display = 'none';
-        const filtered = getFilteredFiles();
-        renderGrid(filtered);
-        document.getElementById('files-section').querySelector('.section-title').textContent =
-          `📂 ${FOLDER_VIEW} (${filtered.length} fichier${filtered.length > 1 ? 's' : ''})`;
+        renderGrid(files);
         return;
       }
 
-      // Root files (no folder)
-      const rootFiles = ALL_FILES.filter(f => !f.folder);
+      // ---- Inside a GITHUB folder ----
+      if (FOLDER_VIEW && FOLDER_VIEW.startsWith('gh:')) {
+        const folderName = FOLDER_VIEW.slice(3);
+        const files = ALL_FILES.filter(f => f.ghFolder === folderName && matchSearch(f, q, ftype));
+        setTitle(`📂 ${folderName}`, true);
+        document.getElementById('folders-section').style.display = 'none';
+        renderGrid(files);
+        return;
+      }
 
-      // Build folder summaries
-      const folderMap = {};
-      ALL_FILES.filter(f => f.folder).forEach(f => {
-        if (!folderMap[f.folder]) folderMap[f.folder] = [];
-        folderMap[f.folder].push(f);
+      // ---- ROOT view ----
+      document.getElementById('back-btn').style.display = 'none';
+
+      // All root-level files (no GitHub subfolder)
+      const rootFiles = ALL_FILES.filter(f => !f.ghFolder);
+
+      // GitHub folders (physical)
+      const ghFolderMap = {};
+      ALL_FILES.filter(f => f.ghFolder).forEach(f => {
+        if (!ghFolderMap[f.ghFolder]) ghFolderMap[f.ghFolder] = [];
+        ghFolderMap[f.ghFolder].push(f);
       });
 
-      // Folders section
+      // Apply auto-folder to root files
+      const { autoFolders, remainingFiles } = computeAutoFolders(rootFiles);
+
+      // Folders section: GitHub folders + auto virtual folders
       const foldersSection = document.getElementById('folders-section');
       const foldersGrid    = document.getElementById('folders-grid');
-      const folderNames = Object.keys(folderMap);
-      if (folderNames.length > 0 && ftype === 'all' && !q) {
+      const ghFolderNames  = Object.keys(ghFolderMap);
+      const hasAutoFolders = autoFolders.size > 0;
+      const hasFolders     = ghFolderNames.length > 0 || hasAutoFolders;
+
+      if (hasFolders && ftype === 'all' && !q) {
         foldersSection.style.display = 'block';
-        foldersGrid.innerHTML = folderNames.map(fn => folderCardHTML(fn, folderMap[fn])).join('');
+        document.getElementById('folders-title').textContent =
+          hasAutoFolders
+            ? `Dossiers ${AUTO_FOLDER_ON ? '(auto activé ✅)' : ''}`
+            : 'Dossiers GitHub';
+
+        foldersGrid.innerHTML =
+          // GitHub folders first
+          ghFolderNames.map(fn => ghFolderCardHTML(fn, ghFolderMap[fn])).join('') +
+          // Then auto virtual folders
+          [...autoFolders.entries()].map(([type, files]) => autoFolderCardHTML(type, files)).join('');
       } else {
         foldersSection.style.display = 'none';
       }
 
-      // Filtered root files
-      const filtered = rootFiles.filter(f => {
-        const matchQ = !q || f.name.toLowerCase().includes(q);
-        const matchT = ftype === 'all' || f.type === ftype;
-        return matchQ && matchT;
-      });
+      // Files that remain individually (after auto-grouping)
+      let visibleFiles = remainingFiles.filter(f => matchSearch(f, q, ftype));
 
-      // Also add matching folder files when searching
-      let extraFiles = [];
+      // When searching/filtering, also show files from auto-folders that match
       if (q || ftype !== 'all') {
-        ALL_FILES.filter(f => f.folder).forEach(f => {
-          const matchQ = !q || f.name.toLowerCase().includes(q);
-          const matchT = ftype === 'all' || f.type === ftype;
-          if (matchQ && matchT) extraFiles.push(f);
-        });
+        for (const [, list] of autoFolders) {
+          visibleFiles.push(...list.filter(f => matchSearch(f, q, ftype)));
+        }
+        // And from github subfolders
+        for (const fn of ghFolderNames) {
+          visibleFiles.push(...ghFolderMap[fn].filter(f => matchSearch(f, q, ftype)));
+        }
       }
 
-      const allVisible = [...filtered, ...extraFiles];
-      renderGrid(allVisible);
+      const label = (q || ftype !== 'all') ? `Résultats (${visibleFiles.length})` : 'Fichiers';
+      setTitle(label, false);
+      renderGrid(visibleFiles);
+    }
 
-      const title = document.getElementById('files-section').querySelector('.section-title');
-      title.textContent = FOLDER_VIEW
-        ? `📂 ${FOLDER_VIEW}`
-        : (q || ftype !== 'all') ? `Résultats (${allVisible.length})` : 'Fichiers';
+    function matchSearch(f, q, ftype) {
+      const matchQ = !q || f.name.toLowerCase().includes(q);
+      const matchT = ftype === 'all' || f.type === ftype;
+      return matchQ && matchT;
+    }
+
+    function setTitle(text, showBack) {
+      document.getElementById('files-title-text').textContent = text;
+      document.getElementById('back-btn').style.display = showBack ? 'inline-flex' : 'none';
     }
 
     function renderGrid(files) {
@@ -723,74 +869,95 @@
         empty.style.display = 'block';
       } else {
         empty.style.display = 'none';
-        grid.innerHTML = files.map(fileCardHTML).join('');
+        grid.innerHTML = files.map((f,_) => fileCardHTML(f, ALL_FILES.indexOf(f))).join('');
       }
     }
 
-    function folderCardHTML(name, files) {
-      const previews = files.slice(0, 3).map(f => `<span style="font-size:1.2rem;">${getMeta(f.type).icon}</span>`).join('');
-      const extra = files.length > 3 ? `<span style="font-size:0.75rem;color:#92400e;">+${files.length-3}</span>` : '';
-      return `
-        <div class="card folder-card" onclick="openFolder('${escapeAttr(name)}')">
-          <div class="card-icon" style="background:#fef3c7;">📂</div>
-          <span class="card-badge type-excel">${files.length} fichiers</span>
-          <div class="card-name">${escapeHTML(name)}</div>
-          <div style="display:flex;gap:0.3rem;margin-top:0.4rem;flex-wrap:wrap;">
-            ${previews}${extra}
-          </div>
-          <div class="card-actions">
-            <button class="btn" onclick="event.stopPropagation();openFolder('${escapeAttr(name)}')">📂 Ouvrir</button>
-          </div>
-        </div>`;
+    // ---- Card HTML builders ----
+
+    function ghFolderCardHTML(name, files) {
+      const previews = files.slice(0,3).map(f=>`<span style="font-size:1.2rem">${getMeta(f.type).icon}</span>`).join('');
+      const extra = files.length > 3 ? `<span style="font-size:0.72rem;color:#92400e">+${files.length-3}</span>` : '';
+      return `<div class="card folder-card" onclick="openGhFolder('${escAttr(name)}')">
+        <div class="card-icon" style="background:#fef3c7">📂</div>
+        <span class="card-badge type-excel">${files.length} fichiers</span>
+        <div class="card-name">${escHTML(name)}</div>
+        <div style="display:flex;gap:0.3rem;margin-top:0.4rem;flex-wrap:wrap">${previews}${extra}</div>
+        <div class="card-actions">
+          <button class="btn" onclick="event.stopPropagation();openGhFolder('${escAttr(name)}')">📂 Ouvrir</button>
+        </div>
+      </div>`;
     }
 
-    function fileCardHTML(f) {
+    function autoFolderCardHTML(type, files) {
+      const meta = getMeta(type);
+      const previews = files.slice(0,4).map(f=>`<span style="font-size:1.1rem" title="${escHTML(f.name)}">${meta.icon}</span>`).join('');
+      const extra = files.length > 4 ? `<span style="font-size:0.72rem;color:#15803d">+${files.length-4}</span>` : '';
+      return `<div class="card folder-card-auto" onclick="openAutoFolder('${type}')">
+        <div class="card-icon ${meta.cssClass}">${meta.icon}</div>
+        <span class="card-badge ${meta.cssClass}">${files.length} fichiers</span>
+        <div class="card-name">${meta.folderLabel}</div>
+        <div class="auto-badge">🤖 Dossier auto</div>
+        <div style="display:flex;gap:0.3rem;margin-top:0.5rem;flex-wrap:wrap">${previews}${extra}</div>
+        <div class="card-actions">
+          <button class="btn" onclick="event.stopPropagation();openAutoFolder('${type}')">📂 Ouvrir</button>
+        </div>
+      </div>`;
+    }
+
+    function fileCardHTML(f, idx) {
       const meta = getMeta(f.type);
-      const idx = ALL_FILES.indexOf(f);
-      return `
-        <div class="card" onclick="openViewer(${idx})">
-          <div class="card-icon ${meta.cssClass}">${meta.icon}</div>
-          <span class="card-badge ${meta.cssClass}">${f.ext || meta.label}</span>
-          <div class="card-name" title="${escapeAttr(f.name)}">${escapeHTML(f.name)}</div>
-          <div class="card-meta">${f.folder ? '📂 ' + escapeHTML(f.folder) + ' &bull; ' : ''}${f.size || ''}</div>
-          <div class="card-actions">
-            <button class="btn" onclick="event.stopPropagation();openViewer(${idx})">👁 Voir</button>
-            <a class="btn" href="${f.rawUrl}" download="${escapeAttr(f.name)}" onclick="event.stopPropagation()">⬇</a>
-          </div>
-        </div>`;
+      return `<div class="card" onclick="openViewer(${idx})">
+        <div class="card-icon ${meta.cssClass}">${meta.icon}</div>
+        <span class="card-badge ${meta.cssClass}">${f.ext || meta.label}</span>
+        <div class="card-name" title="${escAttr(f.name)}">${escHTML(f.name)}</div>
+        <div class="card-meta">${f.ghFolder ? '📂 '+escHTML(f.ghFolder)+' · ' : ''}${f.size||''}</div>
+        <div class="card-actions">
+          <button class="btn" onclick="event.stopPropagation();openViewer(${idx})">👁 Voir</button>
+          <a class="btn" href="${f.rawUrl}" download="${escAttr(f.name)}" onclick="event.stopPropagation()">⬇</a>
+        </div>
+      </div>`;
     }
 
-    function filterFiles() { renderAll(); }
-
-    function openFolder(name) {
-      FOLDER_VIEW = name;
+    // ---- Navigation ----
+    function openGhFolder(name) {
+      FOLDER_VIEW = 'gh:' + name;
       document.getElementById('search-input').value = '';
       document.getElementById('filter-select').value = 'all';
       renderAll();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function openAutoFolder(type) {
+      FOLDER_VIEW = 'auto:' + type;
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-select').value = 'all';
+      renderAll();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function goBack() {
+      FOLDER_VIEW = null;
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-select').value = 'all';
+      renderAll();
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // =====================================================
+    // ============================================================
     //  VIEWER
-    // =====================================================
+    // ============================================================
     function openViewer(idx) {
       const f    = ALL_FILES[idx];
       const meta = getMeta(f.type);
-      const overlay = document.getElementById('modal-overlay');
       document.getElementById('modal-title').textContent = f.name;
       document.getElementById('modal-icon').textContent  = meta.icon;
       const badge = document.getElementById('modal-type-badge');
-      badge.textContent  = meta.label;
-      badge.className    = 'card-badge ' + meta.cssClass;
-
+      badge.textContent = meta.label;
+      badge.className   = 'card-badge ' + meta.cssClass;
       document.getElementById('modal-open-link').href     = f.rawUrl;
       document.getElementById('modal-download-link').href = f.rawUrl;
       document.getElementById('modal-download-link').setAttribute('download', f.name);
-
-      const body = document.getElementById('modal-body');
-      body.innerHTML = buildPreview(f);
-
-      overlay.classList.add('open');
+      document.getElementById('modal-body').innerHTML = buildPreview(f);
+      document.getElementById('modal-overlay').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
@@ -798,107 +965,76 @@
       switch(f.type) {
         case 'pdf':
           return `<iframe src="${f.rawUrl}" style="flex:1;width:100%;min-height:65vh;border:none;"></iframe>`;
-
         case 'image':
           return `<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:1rem;background:#0f172a;min-height:60vh;">
-            <img src="${f.rawUrl}" alt="${escapeAttr(f.name)}" style="max-width:100%;max-height:70vh;object-fit:contain;border-radius:6px;" />
+            <img src="${f.rawUrl}" alt="${escAttr(f.name)}" style="max-width:100%;max-height:70vh;object-fit:contain;border-radius:6px;" />
           </div>`;
-
         case 'video':
           return `<div style="flex:1;display:flex;align-items:center;justify-content:center;background:#000;min-height:60vh;">
-            <video controls style="max-width:100%;max-height:70vh;" src="${f.rawUrl}">
-              Votre navigateur ne supporte pas la lecture vidéo.
-            </video>
+            <video controls style="max-width:100%;max-height:70vh;" src="${f.rawUrl}">Navigateur non compatible.</video>
           </div>`;
-
         case 'audio':
           return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1.5rem;background:#f8fafc;">
             <div style="font-size:5rem;">🎵</div>
-            <div style="font-weight:600;font-size:1rem;color:#1e293b;">${escapeHTML(f.name)}</div>
-            <audio controls style="width:100%;max-width:500px;" src="${f.rawUrl}">
-              Votre navigateur ne supporte pas la lecture audio.
-            </audio>
+            <div style="font-weight:600;">${escHTML(f.name)}</div>
+            <audio controls style="width:100%;max-width:500px;" src="${f.rawUrl}">Navigateur non compatible.</audio>
           </div>`;
-
         case 'text':
         case 'code':
-          return `<iframe src="${f.rawUrl}" style="flex:1;width:100%;min-height:65vh;border:none;background:white;font-family:monospace;"></iframe>`;
-
+          return `<iframe src="${f.rawUrl}" style="flex:1;width:100%;min-height:65vh;border:none;background:white;"></iframe>`;
         case 'word':
-          return buildOfficePreview(f, '📝', 'Fichier Word', '#dbeafe', '#1e40af');
-
         case 'excel':
-          return buildOfficePreview(f, '📊', 'Fichier Excel', '#dcfce7', '#166534');
-
         case 'ppt':
-          return buildOfficePreview(f, '📑', 'Présentation PowerPoint', '#ffedd5', '#9a3412');
-
-        case 'zip':
-          return buildNoPreview(f, '📦', 'Archive compressée',
-            'Les archives ne peuvent pas être prévisualisées dans le navigateur. Téléchargez le fichier pour l\'ouvrir.');
-
+          return officePreview(f);
         default:
-          return buildNoPreview(f, getMeta(f.type).icon, 'Aperçu non disponible',
-            `Ce type de fichier (.${f.ext || '?'}) ne peut pas être prévisualisé directement. Téléchargez-le pour l'ouvrir.`);
+          return noPreview(f, getMeta(f.type).icon, 'Aperçu non disponible',
+            `Ce type de fichier (.${f.ext||'?'}) ne peut pas être prévisualisé. Téléchargez-le pour l'ouvrir.`);
       }
     }
 
-    function buildOfficePreview(f, icon, label, bgColor, textColor) {
-      // Microsoft Office Online viewer — works for publicly accessible files
-      const encoded = encodeURIComponent(f.rawUrl);
-      const msViewer = `https://view.officeapps.live.com/op/embed.aspx?src=${encoded}`;
-      return `
-        <div style="display:flex;flex-direction:column;height:100%;">
-          <iframe src="${msViewer}" style="flex:1;width:100%;min-height:65vh;border:none;" allowfullscreen></iframe>
-          <div style="padding:0.5rem 1rem;background:#f1f5f9;font-size:0.78rem;color:#64748b;text-align:center;">
-            Aperçu via Microsoft Office Online &bull; Certains formats ou fichiers privés peuvent ne pas s'afficher.
-          </div>
-        </div>`;
+    function officePreview(f) {
+      const src = encodeURIComponent(f.rawUrl);
+      return `<div style="display:flex;flex-direction:column;height:100%;">
+        <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${src}"
+          style="flex:1;width:100%;min-height:65vh;border:none;" allowfullscreen></iframe>
+        <div style="padding:0.5rem 1rem;background:#f1f5f9;font-size:0.75rem;color:#64748b;text-align:center;">
+          Aperçu via Microsoft Office Online — le fichier doit être dans un dépôt public.
+        </div>
+      </div>`;
     }
 
-    function buildNoPreview(f, icon, title, msg) {
+    function noPreview(f, icon, title, msg) {
       return `<div class="no-preview">
         <div class="icon">${icon}</div>
         <h3>${title}</h3>
         <p>${msg}</p>
-        <a class="open-btn" href="${f.rawUrl}" download="${escapeAttr(f.name)}">⬇ Télécharger ${escapeHTML(f.name)}</a>
+        <a class="open-btn" href="${f.rawUrl}" download="${escAttr(f.name)}">⬇ Télécharger ${escHTML(f.name)}</a>
       </div>`;
     }
 
-    function closeModal(e) {
-      if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
-    }
+    function closeModal(e) { if (e.target === document.getElementById('modal-overlay')) closeModalDirect(); }
     function closeModalDirect() {
       document.getElementById('modal-overlay').classList.remove('open');
       document.body.style.overflow = '';
       document.getElementById('modal-body').innerHTML = '';
     }
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModalDirect();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
 
-    // =====================================================
+    // ============================================================
     //  UTILS
-    // =====================================================
-    function escapeHTML(str) {
-      return String(str)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    // ============================================================
+    function escHTML(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
-    function escapeAttr(str) {
-      return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    }
+    function escAttr(s) { return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 
-    // =====================================================
+    // ============================================================
     //  INIT
-    // =====================================================
+    // ============================================================
     updateBanner();
+    syncToggleUI();
     loadFiles();
-
-    // Auto-show config if not set
-    if (CONFIG.user === DEFAULT_CONFIG.user) {
-      setTimeout(showConfig, 800);
-    }
+    if (CONFIG.user === DEFAULT_CONFIG.user) setTimeout(showConfig, 800);
     </script>
   </body>
 </html>
